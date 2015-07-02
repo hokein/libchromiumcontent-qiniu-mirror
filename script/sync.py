@@ -14,7 +14,6 @@ REMOTE_URL = 'http://gh-contractor-zcbenz.s3.amazonaws.com/libchromiumcontent'
 CONFIG_FILE_URL = 'https://raw.githubusercontent.com/atom/electron/master/script/lib/config.py'
 SAVE_PATH = os.path.join(SOURCE_ROOT, 'download_binaries')
 
-
 LIBCHROMIUMCONTENT_BINARIES = [
   'libchromiumcontent.zip',
 ]
@@ -30,8 +29,6 @@ TARGETS = [
   'ia32',
 ]
 
-QRSYNC_DOWNLOAD_URL = "http://devtools.qiniu.io/qiniu-devtools-linux_amd64-current.tar.gz"
-
 
 def execute(argv, env=os.environ):
   try:
@@ -43,6 +40,8 @@ def execute(argv, env=os.environ):
 
 
 def get_upstream_commit_id():
+  sys.stdout.write('Get upstream lastest commit')
+  sys.stdout.flush()
   args = ['curl', CONFIG_FILE_URL]
   content = execute(args)
   pattern = re.compile('LIBCHROMIUMCONTENT_COMMIT = \'(\w+)\'')
@@ -61,12 +60,15 @@ def need_download(commit):
 
   return download_commit_id != commit
 
+
 def create_dir_if_needed(dir_path):
   if not os.path.exists(dir_path):
     os.makedirs(dir_path)
 
 
 def download(commit):
+  sys.stdout.write('Downloading commit: {0} \n'.format(commit))
+  sys.stdout.flush()
   for platform in PLATFORMS:
     for target in TARGETS:
       # Currently there are no ia32 binaries on OS X.
@@ -78,6 +80,8 @@ def download(commit):
         save_dir = '{0}/{1}/{2}/{3}'.format(
             SAVE_PATH, platform, target, commit)
         create_dir_if_needed(save_dir)
+        sys.stdout.write('Downloading {0} \n'.format(download_url))
+        sys.stdout.flush()
         wget_args = ['wget', download_url, '-P', save_dir]
         execute(wget_args)
 

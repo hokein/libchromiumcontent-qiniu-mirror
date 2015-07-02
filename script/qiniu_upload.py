@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
-from qiniu import Auth, put_file, set_default, Zone, BucketManager
 import os
 import re
+import sys
+
+from qiniu import Auth, put_file, set_default, Zone, BucketManager
 
 access_key = os.getenv('QINIU_ACCESS_KEY')
 secret_key = os.getenv('QINIU_SECRET_KEY')
@@ -17,6 +19,8 @@ set_default(default_zone=Zone('up.qiniug.com', 'up.qiniug.com'))
 
 
 def get_all_uploaded_files():
+  sys.stdout.write('Retrieve uploaded file in qiniu...\n')
+  sys.stdout.flush()
   bucket = BucketManager(auth)
   marker = None
   eof = False
@@ -30,8 +34,8 @@ def get_all_uploaded_files():
 
 
 def upload_file(local_file_path, file_name):
-  print local_file_path
-  print file_name
+  sys.stdout.write('Uploading {0}...\n'.format(local_file_path))
+  sys.stdout.flush()
   token = auth.upload_token(bucket_name, file_name)
   ret, info = put_file(token, file_name, local_file_path,
       mime_type='application/zip', check_crc=True)
@@ -39,6 +43,8 @@ def upload_file(local_file_path, file_name):
 
 
 def qiniu_sync_dir(abs_dir_path):
+  sys.stdout.write('Syncing to qiniu...\n')
+  sys.stdout.flush()
   uploaded_files = get_all_uploaded_files()
   for dir_path, _, file_names in os.walk(abs_dir_path):
     for file_name in file_names:
