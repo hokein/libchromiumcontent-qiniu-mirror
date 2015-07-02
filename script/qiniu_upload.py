@@ -6,7 +6,7 @@ import re
 
 access_key = os.getenv('QINIU_ACCESS_KEY')
 secret_key = os.getenv('QINIU_SECRET_KEY')
-bucket_name = os.getenv('QINIU_TEST_BUCKET')
+bucket_name = os.getenv('QINIU_BUCKET')
 
 
 auth = Auth(access_key, secret_key)
@@ -45,6 +45,6 @@ def qiniu_sync_dir(abs_dir_path):
       # upload_name alias libchromiumcontent download url:
       # [osx|win|linux]/[x64|ia32]/<commit_id>/libchromiumcontent.zip
       upload_name = os.path.join(
-          dir_path[re.search('osx|win|linux', dir_path).start():], file_name)
+          dir_path[([m.start() for m in re.finditer('osx|win|linux', dir_path)][-1]):], file_name)
       if upload_name not in uploaded_files:
         upload_file(os.path.join(dir_path, file_name), upload_name)
