@@ -31,3 +31,7 @@ export QINIU_BUCKET="<your-qiniu-space-name>"
 ```
 python script/sync.py
 ```
+
+##License
+
+MIT
