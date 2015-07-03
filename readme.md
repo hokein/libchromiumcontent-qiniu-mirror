@@ -32,6 +32,20 @@ export QINIU_BUCKET="<your-qiniu-space-name>"
 python script/sync.py
 ```
 
+##Using in Electron
+
+1. Export the mirror address to `LIBCHROMIUMCONTENT_MIRROR` environment variable
+through the following code:
+
+```
+export LIBCHROMIUMCONTENT_MIRROR="http://7xk3d2.dl1.z0.glb.clouddn.com/"
+```
+
+
+Currently the mirror only supports `dev` binaries(`libchromiumcontent.zip`), and
+will support [config.py](https://github.com/atom/electron/blob/master/script/lib/config.py)
+commit starting from [atom/electron@7b955fe](https://github.com/atom/electron/commit/7b955fe82913ae1e07db36dacd4dad710f537a3c)
+
 ##Sponsors
 
 ![](http://assets.qiniu.com/qiniu-205x89.png)
