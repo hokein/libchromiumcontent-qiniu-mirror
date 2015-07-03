@@ -16,6 +16,7 @@ SAVE_PATH = os.path.join(SOURCE_ROOT, 'download_binaries')
 
 LIBCHROMIUMCONTENT_BINARIES = [
   'libchromiumcontent.zip',
+  'libchromiumcontent-static.zip',
 ]
 
 PLATFORMS = [

@@ -42,8 +42,9 @@ export LIBCHROMIUMCONTENT_MIRROR="http://7xk3d2.dl1.z0.glb.clouddn.com/"
 ```
 
 
-Currently the mirror only supports `dev` binaries(`libchromiumcontent.zip`), and
-will support [config.py](https://github.com/atom/electron/blob/master/script/lib/config.py)
+Currently the mirror supports both Dev&Release binaries(`libchromiumcontent.zip`,
+`libchromiumtcontent-static.zip`), and
+[config.py](https://github.com/atom/electron/blob/master/script/lib/config.py)
 commit starting from [atom/electron@7b955fe](https://github.com/atom/electron/commit/7b955fe82913ae1e07db36dacd4dad710f537a3c)
 
 ##Sponsors
