@@ -18,7 +18,7 @@ libchromium-qiniu-mirror will download `libchromiumcontent` binaries from
 
 ##Usage
 
-**1. Setup your Qiniu account's access key, secret key and bucket name in `ENVIRONMENT` variable. **
+**1. Setup your Qiniu account's access key, secret key and bucket name in `ENVIRONMENT` variable.**
 
 ```
 export QINIU_ACCESS_KEY="<your-access-key>"
@@ -31,6 +31,10 @@ export QINIU_BUCKET="<your-qiniu-space-name>"
 ```
 python script/sync.py
 ```
+
+##Sponsors
+
+![](http://assets.qiniu.com/qiniu-205x89.png)
 
 ##License
 
