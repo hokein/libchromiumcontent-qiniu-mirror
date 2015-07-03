@@ -83,7 +83,7 @@ def download(commit):
         create_dir_if_needed(save_dir)
         sys.stdout.write('Downloading {0} \n'.format(download_url))
         sys.stdout.flush()
-        wget_args = ['wget', download_url, '-P', save_dir]
+        wget_args = ['wget', '-nc', download_url, '-P', save_dir]
         execute(wget_args)
 
   commit_file = os.path.join(SAVE_PATH, '.commit')
