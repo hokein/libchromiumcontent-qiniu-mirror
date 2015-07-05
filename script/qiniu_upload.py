@@ -69,11 +69,13 @@ def qiniu_sync_dir(abs_dir_path):
   uploaded_files = get_all_uploaded_files()
   for dir_path, _, file_names in os.walk(abs_dir_path):
     for file_name in file_names:
-      # upload_name alias libchromiumcontent download url:
-      # [osx|win|linux]/[x64|ia32]/<commit_id>/libchromiumcontent.zip
-      upload_name = os.path.join(
-          dir_path[([m.start() for m in re.finditer('osx|win|linux', dir_path)][-1]):], file_name)
-      if upload_name not in uploaded_files:
-        if upload_file(os.path.join(dir_path, file_name), upload_name):
-          sys.stdout.write('Successfully upload {0}'.format(upload_name))
-          sys.stdout.flush()
+      if file_name == 'libchromiumcontent.zip' or \
+          file_name == 'libchromiumcontent-static.zip':
+        # upload_name alias libchromiumcontent download url:
+        # [osx|win|linux]/[x64|ia32]/<commit_id>/libchromiumcontent.zip
+        upload_name = os.path.join(
+            dir_path[([m.start() for m in re.finditer('osx|win|linux', dir_path)][-1]):], file_name)
+        if upload_name not in uploaded_files:
+          if upload_file(os.path.join(dir_path, file_name), upload_name):
+            sys.stdout.write('Successfully upload {0}'.format(upload_name))
+            sys.stdout.flush()
