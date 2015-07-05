@@ -28,6 +28,7 @@ PLATFORMS = [
 TARGETS = [
   'x64',
   'ia32',
+  'arm',
 ]
 
 
@@ -74,6 +75,9 @@ def download(commit):
     for target in TARGETS:
       # Currently there are no ia32 binaries on OS X.
       if platform == 'osx' and target == 'ia32':
+        continue
+      # arm target is only under linux platform.
+      if platform != 'linux' and target == 'arm':
         continue
       for binary in LIBCHROMIUMCONTENT_BINARIES:
         download_url = '{0}/{1}/{2}/{3}/{4}'.format(
