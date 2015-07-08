@@ -7,6 +7,8 @@ import sys
 
 from qiniu import Auth, put_file, set_default, Zone, BucketManager
 
+MAX_TRIES = 10
+
 access_key = os.getenv('QINIU_ACCESS_KEY')
 secret_key = os.getenv('QINIU_SECRET_KEY')
 bucket_name = os.getenv('QINIU_BUCKET')
@@ -76,6 +78,10 @@ def qiniu_sync_dir(abs_dir_path):
         upload_name = os.path.join(
             dir_path[([m.start() for m in re.finditer('osx|win|linux', dir_path)][-1]):], file_name)
         if upload_name not in uploaded_files:
-          if upload_file(os.path.join(dir_path, file_name), upload_name):
-            sys.stdout.write('Successfully upload {0}'.format(upload_name))
-            sys.stdout.flush()
+          try_times = 0
+          while try_times < MAX_TRIES:
+            if upload_file(os.path.join(dir_path, file_name), upload_name):
+              sys.stdout.write('Successfully upload {0}'.format(upload_name))
+              sys.stdout.flush()
+              break
+            try_times += 1
