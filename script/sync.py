@@ -3,6 +3,7 @@
 import errno
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -68,6 +69,14 @@ def create_dir_if_needed(dir_path):
     os.makedirs(dir_path)
 
 
+def rm_rf(path):
+  try:
+    shutil.rmtree(path)
+  except OSError as e:
+    if e.errno != errno.ENOENT:
+      raise
+
+
 def download(commit):
   sys.stdout.write('Downloading commit: {0} \n'.format(commit))
   sys.stdout.flush()
@@ -99,6 +108,8 @@ def main():
   create_dir_if_needed(SAVE_PATH)
   commit_id = get_upstream_commit_id()
   if need_download(commit_id):
+    # Remove older versions library files for saving disk space.
+    rm_rf(SAVE_PATH)
     download(commit_id)
   qiniu_sync_dir(SAVE_PATH)
 
