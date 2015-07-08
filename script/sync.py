@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import errno
+import threading
 import os
 import re
 import shutil
@@ -14,6 +15,8 @@ SOURCE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 REMOTE_URL = 'http://gh-contractor-zcbenz.s3.amazonaws.com/libchromiumcontent'
 CONFIG_FILE_URL = 'https://raw.githubusercontent.com/atom/electron/master/script/lib/config.py'
 SAVE_PATH = os.path.join(SOURCE_ROOT, 'download_binaries')
+# run time interval in seconds.
+RUN_TIME_INTERVAL = 24*60*60
 
 LIBCHROMIUMCONTENT_BINARIES = [
   'libchromiumcontent.zip',
@@ -114,5 +117,15 @@ def main():
   qiniu_sync_dir(SAVE_PATH)
 
 
+def set_interval(func, sec):
+  def func_wrapper():
+    set_interval(func, sec)
+    func()
+  t = threading.Timer(sec, func_wrapper)
+  t.start()
+  return t
+
+
 if __name__ == '__main__':
-  sys.exit(main())
+  # check update once a day, 24 hours.
+  sys.exit(set_interval(main, RUN_TIME_INTERVAL))
