@@ -81,7 +81,7 @@ def qiniu_sync_dir(abs_dir_path):
           try_times = 0
           while try_times < MAX_TRIES:
             if upload_file(os.path.join(dir_path, file_name), upload_name):
-              sys.stdout.write('Successfully upload {0}'.format(upload_name))
+              sys.stdout.write('Successfully upload {0}\n'.format(upload_name))
               sys.stdout.flush()
               break
             try_times += 1
