@@ -127,5 +127,6 @@ def set_interval(func, sec):
 
 
 if __name__ == '__main__':
+  main()
   # check update once a day, 24 hours.
   sys.exit(set_interval(main, RUN_TIME_INTERVAL))
