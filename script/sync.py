@@ -12,7 +12,7 @@ import tarfile
 from qiniu_upload import qiniu_sync_dir
 
 SOURCE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-REMOTE_URL = 'http://gh-contractor-zcbenz.s3.amazonaws.com/libchromiumcontent'
+REMOTE_URL = 'http://github-janky-artifacts.s3.amazonaws.com/libchromiumcontent'
 CONFIG_FILE_URL = 'https://raw.githubusercontent.com/atom/electron/master/script/lib/config.py'
 SAVE_PATH = os.path.join(SOURCE_ROOT, 'download_binaries')
 # run time interval in seconds.
