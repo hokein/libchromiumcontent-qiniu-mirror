@@ -5,14 +5,9 @@ import re
 import time
 import sys
 
+from config import access_key, secret_key, bucket_name, MAX_TRIES, \
+                   QINIU_UPLOAD_URL
 from qiniu import Auth, put_file, set_default, Zone, BucketManager
-
-MAX_TRIES = 10
-
-access_key = os.getenv('QINIU_ACCESS_KEY')
-secret_key = os.getenv('QINIU_SECRET_KEY')
-bucket_name = os.getenv('QINIU_BUCKET')
-
 
 auth = Auth(access_key, secret_key)
 last_progress = 0
@@ -20,7 +15,7 @@ last_record_time = time.time()
 
 # The default qiniu upload host doesn't support uploading files outside China.
 # Use up.qiniug.com provided from qiniu's custom service
-set_default(default_zone=Zone('up.qiniug.com', 'up.qiniug.com'))
+set_default(default_zone=Zone(QINIU_UPLOAD_URL, QINIU_UPLOAD_URL))
 
 
 def get_all_uploaded_files():

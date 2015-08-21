@@ -9,31 +9,12 @@ import subprocess
 import sys
 import tarfile
 
+from config import REMOTE_URL, CONFIG_FILE_URL, RUN_TIME_INTERVAL, \
+                   LIBCHROMIUMCONTENT_BINARIES, PLATFORMS, TARGETS
 from qiniu_upload import qiniu_sync_dir
 
 SOURCE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-REMOTE_URL = 'http://github-janky-artifacts.s3.amazonaws.com/libchromiumcontent'
-CONFIG_FILE_URL = 'https://raw.githubusercontent.com/atom/electron/master/script/lib/config.py'
 SAVE_PATH = os.path.join(SOURCE_ROOT, 'download_binaries')
-# run time interval in seconds.
-RUN_TIME_INTERVAL = 24*60*60
-
-LIBCHROMIUMCONTENT_BINARIES = [
-  'libchromiumcontent.zip',
-  'libchromiumcontent-static.zip',
-]
-
-PLATFORMS = [
-  'osx',
-  'win',
-  'linux',
-]
-
-TARGETS = [
-  'x64',
-  'ia32',
-  'arm',
-]
 
 
 def execute(argv, env=os.environ):
