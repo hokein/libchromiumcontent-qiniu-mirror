@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os
+
 # Maximum re-uploaded times to Qiniu.
 MAX_TRIES = 10
 
