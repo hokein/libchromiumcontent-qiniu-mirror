@@ -6,7 +6,7 @@ import time
 import sys
 
 from config import access_key, secret_key, bucket_name, MAX_TRIES, \
-                   QINIU_UPLOAD_URL
+                   QINIU_UPLOAD_URL, LIBCHROMIUMCONTENT_BINARIES
 from qiniu import Auth, put_file, set_default, Zone, BucketManager
 
 auth = Auth(access_key, secret_key)
@@ -64,23 +64,25 @@ def qiniu_sync_dir(abs_dir_path):
   sys.stdout.write('Syncing to qiniu...\n')
   sys.stdout.flush()
   uploaded_files = get_all_uploaded_files()
-  for dir_path, _, file_names in os.walk(abs_dir_path):
-    for file_name in file_names:
-      if file_name == 'libchromiumcontent.zip' or \
-          file_name == 'libchromiumcontent-static.zip':
-        # upload_name alias libchromiumcontent download url:
-        # [osx|win|linux]/[x64|ia32]/<commit_id>/libchromiumcontent.zip
-        upload_name = os.path.join(
-            dir_path[([m.start() for m in re.finditer('osx|win|linux', dir_path)][-1]):], file_name)
-        if upload_name not in uploaded_files:
-          try_times = 0
-          while try_times < MAX_TRIES:
-            try:
-              if upload_file(os.path.join(dir_path, file_name), upload_name):
-                sys.stdout.write('Successfully upload {0}\n'.format(upload_name))
+  for binary in LIBCHROMIUMCONTENT_BINARIES:
+    for dir_path, _, file_names in os.walk(abs_dir_path):
+      for file_name in file_names:
+        if file_name == binary:
+          # upload_name alias libchromiumcontent download url:
+          # [osx|win|linux]/[x64|ia32]/<commit_id>/libchromiumcontent.zip
+          upload_name = os.path.join(
+              dir_path[([m.start() for m in re.finditer('osx|win|linux', dir_path)][-1]):], file_name)
+          if upload_name not in uploaded_files:
+            try_times = 0
+            while try_times < MAX_TRIES:
+              try:
+                if upload_file(os.path.join(dir_path, file_name), upload_name):
+                  sys.stdout.write('Successfully upload {0}\n'.format(
+                      upload_name))
+                  sys.stdout.flush()
+                  break
+                try_times += 1
+              except ValueError as e:
+                sys.stdout.write('Upload fails, retry again\n'.format(
+                    upload_name))
                 sys.stdout.flush()
-                break
-              try_times += 1
-            except ValueError as e:
-              sys.stdout.write('Upload fails, retry again\n'.format(upload_name))
-              sys.stdout.flush()
