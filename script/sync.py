@@ -83,15 +83,15 @@ def rm_rf(path):
 def download(commit):
   sys.stdout.write('Downloading commit: {0} \n'.format(commit))
   sys.stdout.flush()
-  for platform in PLATFORMS:
-    for target in TARGETS:
-      # Currently there are no ia32 binaries on OS X.
-      if platform == 'osx' and target == 'ia32':
-        continue
-      # arm target is only under linux platform.
-      if platform != 'linux' and target == 'arm':
-        continue
-      for binary in LIBCHROMIUMCONTENT_BINARIES:
+  for binary in LIBCHROMIUMCONTENT_BINARIES:
+    for platform in PLATFORMS:
+      for target in TARGETS:
+        # Currently there are no ia32 binaries on OS X.
+        if platform == 'osx' and target == 'ia32':
+          continue
+        # arm target is only under linux platform.
+        if platform != 'linux' and target == 'arm':
+          continue
         download_url = '{0}/{1}/{2}/{3}/{4}'.format(
             REMOTE_URL, platform, target, commit, binary)
         save_dir = '{0}/{1}/{2}/{3}'.format(
