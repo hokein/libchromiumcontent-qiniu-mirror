@@ -10,7 +10,6 @@ secret_key = os.getenv('QINIU_SECRET_KEY')
 bucket_name = os.getenv('QINIU_BUCKET')
 
 QINIU_UPLOAD_URL = 'up.qiniug.com'
-REMOTE_URL = 'http://github-janky-artifacts.s3.amazonaws.com/libchromiumcontent'
 CONFIG_FILE_URL = 'https://raw.githubusercontent.com/atom/electron/master/script/lib/config.py'
 
 # Time interval in seconds between each syns.

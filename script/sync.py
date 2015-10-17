@@ -9,13 +9,13 @@ import subprocess
 import sys
 import tarfile
 
-from config import REMOTE_URL, CONFIG_FILE_URL, RUN_TIME_INTERVAL, \
+from config import CONFIG_FILE_URL, RUN_TIME_INTERVAL, \
                    LIBCHROMIUMCONTENT_BINARIES, PLATFORMS, TARGETS
 from qiniu_upload import qiniu_sync_dir
 
 SOURCE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 SAVE_PATH = os.path.join(SOURCE_ROOT, 'download_binaries')
-
+REMOTE_URL = '';
 
 def execute(argv, env=os.environ):
   try:
@@ -31,6 +31,9 @@ def get_upstream_commit_id():
   sys.stdout.flush()
   args = ['curl', CONFIG_FILE_URL]
   content = execute(args)
+  url_pattern= re.compile('\'http://([-\w\./]+)')
+  global REMOTE_URL
+  REMOTE_URL = 'http://{0}'.format(url_pattern.search(content).groups()[0])
   pattern = re.compile('LIBCHROMIUMCONTENT_COMMIT = \'(\w+)\'')
   return pattern.search(content).groups()[0]
 
@@ -110,4 +113,4 @@ def set_interval(func, sec):
 if __name__ == '__main__':
   main()
   # check update once a day, 24 hours.
-  sys.exit(set_interval(main, RUN_TIME_INTERVAL))
+  #sys.exit(set_interval(main, RUN_TIME_INTERVAL))
