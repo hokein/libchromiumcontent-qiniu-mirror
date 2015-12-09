@@ -31,9 +31,9 @@ def get_upstream_commit_id():
   sys.stdout.flush()
   args = ['curl', CONFIG_FILE_URL]
   content = execute(args)
-  url_pattern= re.compile('\'http://([-\w\./]+)')
+  url_pattern= re.compile('\'https://([-\w\./]+)')
   global REMOTE_URL
-  REMOTE_URL = 'http://{0}'.format(url_pattern.search(content).groups()[0])
+  REMOTE_URL = 'https://{0}'.format(url_pattern.search(content).groups()[0])
   pattern = re.compile('LIBCHROMIUMCONTENT_COMMIT = \'(\w+)\'')
   return pattern.search(content).groups()[0]
 
